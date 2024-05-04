@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "malitest",
+	"name": "MaLiTest",
+	"version": "${mod_version}",
+
+	"description": "A Testing-ONLY Mod for network concepts",
+	"authors": [
+		"sakura-ryoko"
+	],
+	"contact": {
+		"issues": "https://github.com/sakura-ryoko/malitest/issues",
+		"sources": "https://github.com/sakura-ryoko/malitest"
+	},
+
+	"license": "LGPLv3",
+	"icon": "assets/malitest/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			"fi.dy.masa.malitest.MaLiTest"
+		],
+		"modmenu": [
+			"fi.dy.masa.malitest.compat.modmenu.ModMenuImpl"
+		]
+	},
+	"mixins": [
+		"mixins.malitest.json"
+	],
+
+	"depends": {
+		"minecraft": ">=1.20.6",
+		"fabric-networking-api-v1": ">=4.0.9",
+		"malilib": ">=0.18.999-snap"
+	},
+	"custom": {
+		"modmenu": {
+			"parent": "malilib"
+		}
+	}
+}
