@@ -1,10 +1,8 @@
 package fi.dy.masa.malitest.network.action;
 
-import java.time.Instant;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 import fi.dy.masa.malilib.network.IPluginClientPlayHandler;
 import fi.dy.masa.malitest.MaLiTest;
 
@@ -49,30 +47,26 @@ public abstract class LedgerActionS2CHandler<T extends CustomPayload> implements
         }
     }
 
-    public void decodePayload(LedgerActionS2CPayload payload)
+    public void decodePayload(LedgerActionType content)
     {
         MaLiTest.logger.info("LedgerActionS2CHandler#decodePayload: payload");
 
-        MaLiTest.logger.info("Pos {}", payload.pos().toShortString());
-        MaLiTest.logger.info("id {}", payload.id());
-        MaLiTest.logger.info("world {}", payload.world().toString());
-        MaLiTest.logger.info("oldObjectId {}", payload.oldObjectId().toString());
-        MaLiTest.logger.info("objectId {}", payload.objectId().toString());
-        MaLiTest.logger.info("source {}", payload.source());
-        MaLiTest.logger.info("timestamp {}", payload.timestamp().toString());
-        MaLiTest.logger.info("extraData {}", payload.extraData());
+        MaLiTest.logger.info("Pos {}", content.pos.toShortString());
+        MaLiTest.logger.info("id {}", content.identifier);
+        MaLiTest.logger.info("world {}", content.world.toString());
+        MaLiTest.logger.info("oldObjectIdentifier {}", content.oldObjectIdentifier.toString());
+        MaLiTest.logger.info("objectIdentifier {}", content.objectIdentifier.toString());
+        MaLiTest.logger.info("source {}", content.sourceName);
+        MaLiTest.logger.info("timestamp {}", content.timestamp.toString());
+        MaLiTest.logger.info("rolledBack {}", content.rolledBack);
+        MaLiTest.logger.info("extraData {}", content.extraData);
     }
 
-    public void encodePayload(BlockPos pos,
-                              String id,
-                              Identifier world,
-                              Identifier oldObjectId,
-                              Identifier objectId,
-                              String source,
-                              Instant timestamp,
-                              String extraData)
+    public void encodePayload(LedgerActionType content)
     {
-        LedgerActionS2CHandler.INSTANCE.sendPlayPayload(new LedgerActionS2CPayload(pos, id, world, oldObjectId, objectId, source, timestamp, extraData));
+        LedgerActionS2CHandler.INSTANCE.sendPlayPayload(new LedgerActionS2CPayload(content));
+
+        MaLiTest.logger.warn("LedgerActionS2CHandler#encode() --> sent");
     }
 
     @Override
@@ -80,6 +74,6 @@ public abstract class LedgerActionS2CHandler<T extends CustomPayload> implements
     {
         MaLiTest.logger.info("LedgerActionS2CHandler#receivePlayPayload: payload");
 
-        LedgerActionS2CHandler.INSTANCE.decodePayload((LedgerActionS2CPayload) payload);
+        LedgerActionS2CHandler.INSTANCE.decodePayload(((LedgerActionS2CPayload) payload).content());
     }
 }

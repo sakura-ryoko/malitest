@@ -57,6 +57,7 @@ public abstract class LedgerRollbackC2SHandler<T extends CustomPayload> implemen
     public void encodePayload(String input)
     {
         LedgerRollbackC2SHandler.INSTANCE.sendPlayPayload(new LedgerRollbackC2SPayload(input));
+        MaLiTest.logger.warn("LedgerRollbackC2SHandler#encode() --> sent");
     }
 
     @Override

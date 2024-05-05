@@ -22,11 +22,4 @@ public class LedgerResponse
     {
         return this.response;
     }
-
-    public LedgerResponse of(Identifier type, Integer response)
-    {
-        this.type = type;
-        this.response = response;
-        return this;
-    }
 }

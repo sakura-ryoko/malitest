@@ -59,6 +59,8 @@ public abstract class LedgerPurgeC2SHandler<T extends CustomPayload> implements 
     public void encodePayload(BlockPos pos, int pages)
     {
         LedgerPurgeC2SHandler.INSTANCE.sendPlayPayload(new LedgerPurgeC2SPayload(pos, pages));
+
+        MaLiTest.logger.warn("LedgerPurgeC2SHandler#encode() --> sent");
     }
 
     @Override

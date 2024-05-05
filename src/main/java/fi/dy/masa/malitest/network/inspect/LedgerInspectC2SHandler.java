@@ -53,11 +53,12 @@ public abstract class LedgerInspectC2SHandler<T extends CustomPayload> implement
         MaLiTest.logger.info("LedgerInspectC2SHandler#decodePayload: payload");
 
         MaLiTest.logger.info("Pos: {}", payload.pos().toShortString());
+        MaLiTest.logger.info("Pages: {}", payload.pages());
     }
 
-    public void encodePayload(BlockPos pos)
+    public void encodePayload(BlockPos pos, Integer pages)
     {
-        LedgerInspectC2SHandler.INSTANCE.sendPlayPayload(new LedgerInspectC2SPayload(pos));
+        LedgerInspectC2SHandler.INSTANCE.sendPlayPayload(new LedgerInspectC2SPayload(pos, pages));
         MaLiTest.logger.warn("LedgerInspectC2SHandler#encode(): --> sent");
     }
 

@@ -1,6 +1,6 @@
 package fi.dy.masa.malitest.network.handshake;
 
-import java.util.Collection;
+import java.util.List;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.CustomPayload;
@@ -43,18 +43,18 @@ public abstract class LedgerHandshakeHandler<T extends CustomPayload> implements
     {
         if (channel.equals(CHANNEL_ID))
         {
-            MaLiTest.logger.info("LedgerHandshakeHandler: reset()");
+            MaLiTest.logger.info("LedgerHandshakeC2SHandler: reset()");
 
             LedgerHandshakeHandler.INSTANCE.unregisterPlayReceiver();
         }
     }
 
-    public void decodePayload(LedgerHandshakePayload payload)
+    public void decodePayload(LedgerHandshake content)
     {
-        MaLiTest.logger.info("LedgerHandshakeHandler#decodePayload: payload");
-        int protocolVersion = payload.getProtocolVersion();
-        String ledgerVersion = payload.getLedgerVersion();
-        Collection<String> actionTypes = payload.getActionTypes();
+        MaLiTest.logger.info("LedgerHandshakeC2SHandler#decodePayload: payload");
+        int protocolVersion = content.getProtocolVersion();
+        String ledgerVersion = content.getLedgerVersion();
+        List<String> actionTypes = content.getActions();
 
         MaLiTest.logger.info("Protocol Version: {}", protocolVersion);
         MaLiTest.logger.info("Ledger version: {}", ledgerVersion);
@@ -66,16 +66,26 @@ public abstract class LedgerHandshakeHandler<T extends CustomPayload> implements
         }
     }
 
-    public void encodePayload(NbtCompound nbt)
+    public void encodePayload(LedgerHandshake content)
     {
-        LedgerHandshakeHandler.INSTANCE.sendPlayPayload(new LedgerHandshakePayload(nbt));
+        LedgerHandshakeHandler.INSTANCE.sendPlayPayload(new LedgerHandshakePayload(content));
+    }
+
+    public void encodePayload(NbtCompound content)
+    {
+        LedgerHandshakeHandler.INSTANCE.sendPlayPayload(new LedgerHandshakePayload(LedgerHandshake.fromNbt(content)));
+    }
+
+    public void encodePayload(Integer protocolVersion, String ledgerVersion, String modId)
+    {
+        LedgerHandshakeHandler.INSTANCE.sendPlayPayload(new LedgerHandshakePayload(new LedgerHandshake(protocolVersion, ledgerVersion, modId)));
     }
 
     @Override
     public void receivePlayPayload(T payload, ClientPlayNetworking.Context ctx)
     {
-        MaLiTest.logger.info("LedgerHandshakeHandler#receivePlayPayload: payload");
+        MaLiTest.logger.info("LedgerHandshakeC2SHandler#receivePlayPayload: payload");
 
-        LedgerHandshakeHandler.INSTANCE.decodePayload((LedgerHandshakePayload) payload);
+        LedgerHandshakeHandler.INSTANCE.decodePayload(((LedgerHandshakePayload) payload).content());
     }
 }

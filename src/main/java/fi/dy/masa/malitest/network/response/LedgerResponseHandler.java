@@ -9,17 +9,17 @@ import fi.dy.masa.malilib.network.IPluginClientPlayHandler;
 import fi.dy.masa.malitest.MaLiTest;
 
 @Environment(EnvType.CLIENT)
-public abstract class LedgerResponseS2CHandler<T extends CustomPayload> implements IPluginClientPlayHandler<T>
+public abstract class LedgerResponseHandler<T extends CustomPayload> implements IPluginClientPlayHandler<T>
 {
-    private static final LedgerResponseS2CHandler<LedgerResponseS2CPayload> INSTANCE = new LedgerResponseS2CHandler<>()
+    private static final LedgerResponseHandler<LedgerResponsePayload> INSTANCE = new LedgerResponseHandler<>()
     {
         @Override
-        public void receive(LedgerResponseS2CPayload payload, ClientPlayNetworking.Context context)
+        public void receive(LedgerResponsePayload payload, ClientPlayNetworking.Context context)
         {
-            LedgerResponseS2CHandler.INSTANCE.receivePlayPayload(payload, context);
+            LedgerResponseHandler.INSTANCE.receivePlayPayload(payload, context);
         }
     };
-    public static LedgerResponseS2CHandler<LedgerResponseS2CPayload> getInstance() { return INSTANCE; }
+    public static LedgerResponseHandler<LedgerResponsePayload> getInstance() { return INSTANCE; }
 
     public static final Identifier CHANNEL_ID = new Identifier("ledger", "response");
     private boolean registered = false;
@@ -50,30 +50,30 @@ public abstract class LedgerResponseS2CHandler<T extends CustomPayload> implemen
     {
         if (channel.equals(CHANNEL_ID))
         {
-            MaLiTest.logger.info("LedgerResponseS2CHandler: reset()");
+            MaLiTest.logger.info("LedgerResponseHandler: reset()");
 
-            LedgerResponseS2CHandler.INSTANCE.unregisterPlayReceiver();
+            LedgerResponseHandler.INSTANCE.unregisterPlayReceiver();
         }
     }
 
-    public void decodePayload(LedgerResponse reply)
+    public void decodePayload(LedgerResponse content)
     {
-        MaLiTest.logger.info("LedgerResponseS2CHandler#decodePayload: payload");
+        MaLiTest.logger.info("LedgerResponseHandler#decodePayload: payload");
 
-        MaLiTest.logger.info("Type: {}", reply.getType());
-        MaLiTest.logger.info("LedgerResponse: {}", reply.getResponse());
+        MaLiTest.logger.info("Type: {}", content.getType().toString());
+        MaLiTest.logger.info("LedgerResponse: {}", content.getResponse());
     }
 
     public void encodePayload(Identifier type, int response)
     {
-        LedgerResponseS2CHandler.INSTANCE.sendPlayPayload(new LedgerResponseS2CPayload(new LedgerResponse(type, response)));
+        LedgerResponseHandler.INSTANCE.sendPlayPayload(new LedgerResponsePayload(new LedgerResponse(type, response)));
     }
 
     @Override
     public void receivePlayPayload(T payload, ClientPlayNetworking.Context ctx)
     {
-        MaLiTest.logger.info("LedgerResponseS2CHandler#receivePlayPayload: payload");
+        MaLiTest.logger.info("LedgerResponseHandler#receivePlayPayload: payload");
 
-        LedgerResponseS2CHandler.INSTANCE.decodePayload(((LedgerResponseS2CPayload) payload).reply());
+        LedgerResponseHandler.INSTANCE.decodePayload(((LedgerResponsePayload) payload).content());
     }
 }

@@ -51,12 +51,13 @@ public abstract class LedgerSearchC2SHandler<T extends CustomPayload> implements
     {
         MaLiTest.logger.info("LedgerSearchC2SHandler#decodePayload: payload");
 
-        MaLiTest.logger.info("Query: {}", payload.query());
+        MaLiTest.logger.info("Restore: {}", payload.restore());
+        MaLiTest.logger.info("Args: {}", payload.args());
     }
 
-    public void encodePayload(String query)
+    public void encodePayload(Boolean restore, String args)
     {
-        LedgerSearchC2SHandler.INSTANCE.sendPlayPayload(new LedgerSearchC2SPayload(query));
+        LedgerSearchC2SHandler.INSTANCE.sendPlayPayload(new LedgerSearchC2SPayload(restore, args));
         MaLiTest.logger.warn("LedgerSearchC2SHandler#encode() --> sent");
     }
 

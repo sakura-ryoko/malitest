@@ -17,8 +17,8 @@ import fi.dy.masa.malitest.network.inspect.LedgerInspectC2SHandler;
 import fi.dy.masa.malitest.network.inspect.LedgerInspectC2SPayload;
 import fi.dy.masa.malitest.network.purge.LedgerPurgeC2SHandler;
 import fi.dy.masa.malitest.network.purge.LedgerPurgeC2SPayload;
-import fi.dy.masa.malitest.network.response.LedgerResponseS2CHandler;
-import fi.dy.masa.malitest.network.response.LedgerResponseS2CPayload;
+import fi.dy.masa.malitest.network.response.LedgerResponseHandler;
+import fi.dy.masa.malitest.network.response.LedgerResponsePayload;
 import fi.dy.masa.malitest.network.rollback.LedgerRollbackC2SHandler;
 import fi.dy.masa.malitest.network.rollback.LedgerRollbackC2SPayload;
 import fi.dy.masa.malitest.network.search.LedgerSearchC2SHandler;
@@ -29,13 +29,13 @@ public class DataManager
     private static final DataManager INSTANCE = new DataManager();
     public static DataManager getInstance() { return INSTANCE; }
 
-    private final static LedgerActionS2CHandler<LedgerActionS2CPayload> ACTION = LedgerActionS2CHandler.getInstance();
+    private final static LedgerActionS2CHandler<LedgerActionS2CPayload> S2C_ACTION = LedgerActionS2CHandler.getInstance();
+    private final static LedgerInspectC2SHandler<LedgerInspectC2SPayload> C2S_INSPECT = LedgerInspectC2SHandler.getInstance();
+    private final static LedgerPurgeC2SHandler<LedgerPurgeC2SPayload> C2S_PURGE = LedgerPurgeC2SHandler.getInstance();
+    private final static LedgerRollbackC2SHandler<LedgerRollbackC2SPayload> C2S_ROLLBACK = LedgerRollbackC2SHandler.getInstance();
+    private final static LedgerSearchC2SHandler<LedgerSearchC2SPayload> C2S_SEARCH = LedgerSearchC2SHandler.getInstance();
     private final static LedgerHandshakeHandler<LedgerHandshakePayload> HANDSHAKE = LedgerHandshakeHandler.getInstance();
-    private final static LedgerInspectC2SHandler<LedgerInspectC2SPayload> INSPECT = LedgerInspectC2SHandler.getInstance();
-    private final static LedgerPurgeC2SHandler<LedgerPurgeC2SPayload> PURGE = LedgerPurgeC2SHandler.getInstance();
-    private final static LedgerResponseS2CHandler<LedgerResponseS2CPayload> RESPONSE = LedgerResponseS2CHandler.getInstance();
-    private final static LedgerRollbackC2SHandler<LedgerRollbackC2SPayload> ROLLBACK = LedgerRollbackC2SHandler.getInstance();
-    private final static LedgerSearchC2SHandler<LedgerSearchC2SPayload> SEARCH = LedgerSearchC2SHandler.getInstance();
+    private final static LedgerResponseHandler<LedgerResponsePayload> RESPONSE = LedgerResponseHandler.getInstance();
 
     private DataManager()
     {
@@ -48,13 +48,13 @@ public class DataManager
             MaLiTest.logger.info("DataManager#reset() - log-out");
 
             // Reset Handlers
-            ACTION.reset(ACTION.getPayloadChannel());
+            S2C_ACTION.reset(S2C_ACTION.getPayloadChannel());
+            C2S_INSPECT.reset(C2S_INSPECT.getPayloadChannel());
+            C2S_PURGE.reset(C2S_PURGE.getPayloadChannel());
+            C2S_ROLLBACK.reset(C2S_ROLLBACK.getPayloadChannel());
+            C2S_SEARCH.reset(C2S_SEARCH.getPayloadChannel());
             HANDSHAKE.reset(HANDSHAKE.getPayloadChannel());
-            INSPECT.reset(INSPECT.getPayloadChannel());
-            PURGE.reset(PURGE.getPayloadChannel());
             RESPONSE.reset(RESPONSE.getPayloadChannel());
-            ROLLBACK.reset(ROLLBACK.getPayloadChannel());
-            SEARCH.reset(SEARCH.getPayloadChannel());
         }
         else
         {
@@ -67,23 +67,22 @@ public class DataManager
         MaLiTest.logger.info("DataManager#onGameInit(): execute");
 
         // Register Handlers
-        ClientPlayHandler.getInstance().registerClientPlayHandler(ACTION);
+        ClientPlayHandler.getInstance().registerClientPlayHandler(S2C_ACTION);
+        ClientPlayHandler.getInstance().registerClientPlayHandler(C2S_INSPECT);
+        ClientPlayHandler.getInstance().registerClientPlayHandler(C2S_PURGE);
+        ClientPlayHandler.getInstance().registerClientPlayHandler(C2S_ROLLBACK);
+        ClientPlayHandler.getInstance().registerClientPlayHandler(C2S_SEARCH);
         ClientPlayHandler.getInstance().registerClientPlayHandler(HANDSHAKE);
-        ClientPlayHandler.getInstance().registerClientPlayHandler(INSPECT);
-        ClientPlayHandler.getInstance().registerClientPlayHandler(PURGE);
         ClientPlayHandler.getInstance().registerClientPlayHandler(RESPONSE);
-        ClientPlayHandler.getInstance().registerClientPlayHandler(ROLLBACK);
-        ClientPlayHandler.getInstance().registerClientPlayHandler(SEARCH);
 
         // Register Payload Channels
-        ACTION.registerPlayPayload(LedgerActionS2CPayload.TYPE, LedgerActionS2CPayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
+        S2C_ACTION.registerPlayPayload(LedgerActionS2CPayload.TYPE, LedgerActionS2CPayload.CODEC, IPluginClientPlayHandler.FROM_SERVER);
+        C2S_INSPECT.registerPlayPayload(LedgerInspectC2SPayload.TYPE, LedgerInspectC2SPayload.CODEC, IPluginClientPlayHandler.TO_SERVER);
+        C2S_SEARCH.registerPlayPayload(LedgerSearchC2SPayload.TYPE, LedgerSearchC2SPayload.CODEC, IPluginClientPlayHandler.TO_SERVER);
+        C2S_PURGE.registerPlayPayload(LedgerPurgeC2SPayload.TYPE, LedgerPurgeC2SPayload.CODEC, IPluginClientPlayHandler.TO_SERVER);
+        C2S_ROLLBACK.registerPlayPayload(LedgerRollbackC2SPayload.TYPE, LedgerRollbackC2SPayload.CODEC, IPluginClientPlayHandler.TO_SERVER);
         HANDSHAKE.registerPlayPayload(LedgerHandshakePayload.TYPE, LedgerHandshakePayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
-        INSPECT.registerPlayPayload(LedgerInspectC2SPayload.TYPE, LedgerInspectC2SPayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
-        SEARCH.registerPlayPayload(LedgerSearchC2SPayload.TYPE, LedgerSearchC2SPayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
-
-        PURGE.registerPlayPayload(LedgerPurgeC2SPayload.TYPE, LedgerPurgeC2SPayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
-        RESPONSE.registerPlayPayload(LedgerResponseS2CPayload.TYPE, LedgerResponseS2CPayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
-        ROLLBACK.registerPlayPayload(LedgerRollbackC2SPayload.TYPE, LedgerRollbackC2SPayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
+        RESPONSE.registerPlayPayload(LedgerResponsePayload.TYPE, LedgerResponsePayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
 
         PlayerBlockBreakEvents.AFTER.register(this::onInspectBlock);
     }
@@ -93,15 +92,14 @@ public class DataManager
         MaLiTest.logger.info("DataManager#onGameInit(): onWorldPre");
 
         // Register Receivers
-        ACTION.registerPlayReceiver(LedgerActionS2CPayload.TYPE, ACTION::receivePlayPayload);
+        S2C_ACTION.registerPlayReceiver(LedgerActionS2CPayload.TYPE, S2C_ACTION::receivePlayPayload);
+        //C2S_HANDSHAKE.registerPlayReceiver(LedgerHandshakeC2SPayload.TYPE, C2S_HANDSHAKE::receivePlayPayload);
+        //C2S_INSPECT.registerPlayReceiver(LedgerInspectC2SPayload.TYPE, C2S_INSPECT::receivePlayPayload);
+        //C2S_SEARCH.registerPlayReceiver(LedgerSearchC2SPayload.TYPE, C2S_SEARCH::receivePlayPayload);
+        //C2S_PURGE.registerPlayReceiver(LedgerPurgeC2SPayload.TYPE, C2S_PURGE::receivePlayPayload);
+        //C2S_ROLLBACK.registerPlayReceiver(LedgerRollbackC2SPayload.TYPE, C2S_ROLLBACK::receivePlayPayload);
         HANDSHAKE.registerPlayReceiver(LedgerHandshakePayload.TYPE, HANDSHAKE::receivePlayPayload);
-        // X
-        INSPECT.registerPlayReceiver(LedgerInspectC2SPayload.TYPE, INSPECT::receivePlayPayload);
-        SEARCH.registerPlayReceiver(LedgerSearchC2SPayload.TYPE, SEARCH::receivePlayPayload);
-
-        PURGE.registerPlayReceiver(LedgerPurgeC2SPayload.TYPE, PURGE::receivePlayPayload);
-        RESPONSE.registerPlayReceiver(LedgerResponseS2CPayload.TYPE, RESPONSE::receivePlayPayload);
-        ROLLBACK.registerPlayReceiver(LedgerRollbackC2SPayload.TYPE, ROLLBACK::receivePlayPayload);
+        RESPONSE.registerPlayReceiver(LedgerResponsePayload.TYPE, RESPONSE::receivePlayPayload);
     }
 
     public void onWorldJoin()
@@ -113,16 +111,16 @@ public class DataManager
 
     public void onInspectBlock(World world, PlayerEntity playerEntity, BlockPos blockPos, BlockState blockState, BlockEntity blockEntity)
     {
-        INSPECT.encodePayload(blockPos);
+        C2S_INSPECT.encodePayload(blockPos, 1);
     }
 
     public void onInspectBlock(BlockPos blockPos)
     {
-        INSPECT.encodePayload(blockPos);
+        C2S_INSPECT.encodePayload(blockPos, 1);
     }
 
     public void sendSearchQuery(String query)
     {
-        SEARCH.encodePayload(query);
+        C2S_SEARCH.encodePayload(false, query);
     }
 }
