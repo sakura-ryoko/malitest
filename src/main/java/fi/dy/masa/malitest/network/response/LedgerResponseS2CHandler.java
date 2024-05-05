@@ -61,7 +61,7 @@ public abstract class LedgerResponseS2CHandler<T extends CustomPayload> implemen
         MaLiTest.logger.info("LedgerResponseS2CHandler#decodePayload: payload");
 
         MaLiTest.logger.info("Type: {}", payload.getContentType().toString());
-        MaLiTest.logger.info("Response: {}", payload.getResponse());
+        MaLiTest.logger.info("Response: {}", payload.getResponseCode());
     }
 
     public void encodePayload(Identifier type, int response)

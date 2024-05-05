@@ -14,5 +14,5 @@ public class ResponseContent
     }
 
     public Identifier getType() { return this.type; }
-    public int getResponse() { return this.response; }
+    public int getResponseCode() { return this.response; }
 }

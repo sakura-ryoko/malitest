@@ -10,32 +10,32 @@ public class LedgerResponseS2CPayload implements CustomPayload
     public static final Id<LedgerResponseS2CPayload> TYPE = new Id<>(LedgerResponseS2CHandler.CHANNEL_ID);
     public static final PacketCodec<PacketByteBuf, LedgerResponseS2CPayload> CODEC = CustomPayload.codecOf(LedgerResponseS2CPayload::write, LedgerResponseS2CPayload::new);
 
-    private final ResponseContent content;
+    ResponseContent response;
 
     public LedgerResponseS2CPayload(PacketByteBuf buf)
     {
-        this.content = new ResponseContent(buf.readIdentifier(), buf.readInt());
+        this(buf.readIdentifier(), buf.readInt());
     }
 
     public LedgerResponseS2CPayload(Identifier type, int response)
     {
-        this.content = new ResponseContent(type, response);
+        this.response = new ResponseContent(type, response);
     }
 
     private void write(PacketByteBuf buf)
     {
-        buf.writeIdentifier(this.content.getType());
-        buf.writeInt(this.content.getResponse());
+        buf.writeIdentifier(this.response.getType());
+        buf.writeInt(this.response.getResponseCode());
     }
 
     public Identifier getContentType()
     {
-        return this.content.getType();
+        return this.response.getType();
     }
 
-    public int getResponse()
+    public int getResponseCode()
     {
-        return this.content.getResponse();
+        return this.response.getResponseCode();
     }
 
     @Override

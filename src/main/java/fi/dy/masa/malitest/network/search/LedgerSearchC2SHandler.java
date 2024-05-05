@@ -56,7 +56,9 @@ public abstract class LedgerSearchC2SHandler<T extends CustomPayload> implements
 
     public void encodePayload(String query)
     {
+        MaLiTest.logger.info("LedgerSearchC2SHandler() --> sending");
         LedgerSearchC2SHandler.INSTANCE.sendPlayPayload(new LedgerSearchC2SPayload(query));
+        MaLiTest.logger.info("LedgerSearchC2SHandler() --> sent");
     }
 
     @Override
