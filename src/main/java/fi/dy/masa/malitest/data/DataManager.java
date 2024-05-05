@@ -106,7 +106,7 @@ public class DataManager
     {
         MaLiTest.logger.info("DataManager#onGameInit(): onWorldJoin");
 
-        // Do Something
+        // Do Something, like register client with Ledger via 'Handshake'.
     }
 
     public void onInspectBlock(World world, PlayerEntity playerEntity, BlockPos blockPos, BlockState blockState, BlockEntity blockEntity)
