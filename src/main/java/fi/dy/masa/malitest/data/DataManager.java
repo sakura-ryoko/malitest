@@ -70,13 +70,13 @@ public class DataManager
         ClientPlayHandler.getInstance().registerClientPlayHandler(SEARCH);
 
         // Register Payload Channels
-        ACTION.registerPlayPayload(LedgerActionS2CPayload.TYPE, LedgerActionS2CPayload.CODEC, IPluginClientPlayHandler.FROM_SERVER);
+        ACTION.registerPlayPayload(LedgerActionS2CPayload.TYPE, LedgerActionS2CPayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
         HANDSHAKE.registerPlayPayload(LedgerHandshakePayload.TYPE, LedgerHandshakePayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
-        INSPECT.registerPlayPayload(LedgerInspectC2SPayload.TYPE, LedgerInspectC2SPayload.CODEC, IPluginClientPlayHandler.TO_SERVER);
-        PURGE.registerPlayPayload(LedgerPurgeC2SPayload.TYPE, LedgerPurgeC2SPayload.CODEC, IPluginClientPlayHandler.TO_SERVER);
-        RESPONSE.registerPlayPayload(LedgerResponseS2CPayload.TYPE, LedgerResponseS2CPayload.CODEC, IPluginClientPlayHandler.FROM_SERVER);
-        ROLLBACK.registerPlayPayload(LedgerRollbackC2SPayload.TYPE, LedgerRollbackC2SPayload.CODEC, IPluginClientPlayHandler.TO_SERVER);
-        SEARCH.registerPlayPayload(LedgerSearchC2SPayload.TYPE, LedgerSearchC2SPayload.CODEC, IPluginClientPlayHandler.TO_SERVER);
+        INSPECT.registerPlayPayload(LedgerInspectC2SPayload.TYPE, LedgerInspectC2SPayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
+        PURGE.registerPlayPayload(LedgerPurgeC2SPayload.TYPE, LedgerPurgeC2SPayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
+        RESPONSE.registerPlayPayload(LedgerResponseS2CPayload.TYPE, LedgerResponseS2CPayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
+        ROLLBACK.registerPlayPayload(LedgerRollbackC2SPayload.TYPE, LedgerRollbackC2SPayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
+        SEARCH.registerPlayPayload(LedgerSearchC2SPayload.TYPE, LedgerSearchC2SPayload.CODEC, IPluginClientPlayHandler.BOTH_SERVER);
     }
 
     public void onWorldPre()
@@ -86,7 +86,11 @@ public class DataManager
         // Register Receivers
         ACTION.registerPlayReceiver(LedgerActionS2CPayload.TYPE, ACTION::receivePlayPayload);
         HANDSHAKE.registerPlayReceiver(LedgerHandshakePayload.TYPE, HANDSHAKE::receivePlayPayload);
+        INSPECT.registerPlayReceiver(LedgerInspectC2SPayload.TYPE, INSPECT::receivePlayPayload);
+        PURGE.registerPlayReceiver(LedgerPurgeC2SPayload.TYPE, PURGE::receivePlayPayload);
         RESPONSE.registerPlayReceiver(LedgerResponseS2CPayload.TYPE, RESPONSE::receivePlayPayload);
+        ROLLBACK.registerPlayReceiver(LedgerRollbackC2SPayload.TYPE, ROLLBACK::receivePlayPayload);
+        SEARCH.registerPlayReceiver(LedgerSearchC2SPayload.TYPE, SEARCH::receivePlayPayload);
     }
 
     public void onWorldJoin()
