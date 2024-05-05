@@ -21,6 +21,7 @@ public class WorldLoadListener implements IWorldLoadListener
     public void onWorldLoadPost(@Nullable ClientWorld worldBefore, @Nullable ClientWorld worldAfter, MinecraftClient mc)
     {
         DataManager.getInstance().reset(worldAfter == null);
+
         if (worldAfter != null)
         {
             DataManager.getInstance().onWorldJoin();

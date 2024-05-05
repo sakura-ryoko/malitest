@@ -1,10 +1,8 @@
 package fi.dy.masa.malitest;
 
-import fi.dy.masa.malilib.event.ServerHandler;
 import fi.dy.masa.malilib.event.WorldLoadHandler;
 import fi.dy.masa.malilib.interfaces.IInitializationHandler;
 import fi.dy.masa.malitest.data.DataManager;
-import fi.dy.masa.malitest.event.ServerListener;
 import fi.dy.masa.malitest.event.WorldLoadListener;
 
 public class InitHandler implements IInitializationHandler
@@ -18,8 +16,5 @@ public class InitHandler implements IInitializationHandler
         WorldLoadListener listener = new WorldLoadListener();
         WorldLoadHandler.getInstance().registerWorldLoadPreHandler(listener);
         WorldLoadHandler.getInstance().registerWorldLoadPostHandler(listener);
-
-        ServerListener serverListener = new ServerListener();
-        ServerHandler.getInstance().registerServerHandler(serverListener);
     }
 }
