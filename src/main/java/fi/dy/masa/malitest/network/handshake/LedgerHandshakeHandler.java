@@ -74,9 +74,8 @@ public abstract class LedgerHandshakeHandler<T extends CustomPayload> implements
     @Override
     public void receivePlayPayload(T payload, ClientPlayNetworking.Context ctx)
     {
-        if (payload.getId().id().equals(this.getPayloadChannel()))
-        {
-            LedgerHandshakeHandler.INSTANCE.decodePayload((LedgerHandshakePayload) payload);
-        }
+        MaLiTest.logger.info("LedgerHandshakeHandler#receivePlayPayload: payload");
+
+        LedgerHandshakeHandler.INSTANCE.decodePayload((LedgerHandshakePayload) payload);
     }
 }

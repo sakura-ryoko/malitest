@@ -62,6 +62,8 @@ public abstract class LedgerRollbackC2SHandler<T extends CustomPayload> implemen
     @Override
     public void receivePlayPayload(T payload, ClientPlayNetworking.Context ctx)
     {
+        MaLiTest.logger.info("LedgerRollbackC2SHandler#receivePlayPayload: payload");
+
         LedgerRollbackC2SHandler.INSTANCE.decodePayload((LedgerRollbackC2SPayload) payload);
     }
 }

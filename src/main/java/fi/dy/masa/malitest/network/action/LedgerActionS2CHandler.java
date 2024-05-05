@@ -78,6 +78,8 @@ public abstract class LedgerActionS2CHandler<T extends CustomPayload> implements
     @Override
     public void receivePlayPayload(T payload, ClientPlayNetworking.Context ctx)
     {
+        MaLiTest.logger.info("LedgerActionS2CHandler#receivePlayPayload: payload");
+
         LedgerActionS2CHandler.INSTANCE.decodePayload((LedgerActionS2CPayload) payload);
     }
 }

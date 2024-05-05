@@ -62,6 +62,8 @@ public abstract class LedgerSearchC2SHandler<T extends CustomPayload> implements
     @Override
     public void receivePlayPayload(T payload, ClientPlayNetworking.Context ctx)
     {
+        MaLiTest.logger.info("LedgerSearchC2SHandler#receivePlayPayload: payload");
+
         LedgerSearchC2SHandler.INSTANCE.decodePayload((LedgerSearchC2SPayload) payload);
     }
 }
