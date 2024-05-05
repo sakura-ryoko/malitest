@@ -56,17 +56,17 @@ public abstract class LedgerResponseS2CHandler<T extends CustomPayload> implemen
         }
     }
 
-    public void decodePayload(LedgerResponseS2CPayload payload)
+    public void decodePayload(LedgerResponse reply)
     {
         MaLiTest.logger.info("LedgerResponseS2CHandler#decodePayload: payload");
 
-        MaLiTest.logger.info("Type: {}", payload.getContentType().toString());
-        MaLiTest.logger.info("Response: {}", payload.getResponseCode());
+        MaLiTest.logger.info("Type: {}", reply.getType());
+        MaLiTest.logger.info("LedgerResponse: {}", reply.getResponse());
     }
 
     public void encodePayload(Identifier type, int response)
     {
-        LedgerResponseS2CHandler.INSTANCE.sendPlayPayload(new LedgerResponseS2CPayload(type, response));
+        LedgerResponseS2CHandler.INSTANCE.sendPlayPayload(new LedgerResponseS2CPayload(new LedgerResponse(type, response)));
     }
 
     @Override
@@ -74,6 +74,6 @@ public abstract class LedgerResponseS2CHandler<T extends CustomPayload> implemen
     {
         MaLiTest.logger.info("LedgerResponseS2CHandler#receivePlayPayload: payload");
 
-        LedgerResponseS2CHandler.INSTANCE.decodePayload((LedgerResponseS2CPayload) payload);
+        LedgerResponseS2CHandler.INSTANCE.decodePayload(((LedgerResponseS2CPayload) payload).reply());
     }
 }

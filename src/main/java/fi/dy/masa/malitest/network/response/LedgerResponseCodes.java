@@ -1,6 +1,6 @@
 package fi.dy.masa.malitest.network.response;
 
-public enum ResponseCodes
+public enum LedgerResponseCodes
 {
     NO_PERMISSION(0),
     EXECUTING(1),
@@ -8,6 +8,6 @@ public enum ResponseCodes
     ERROR(3),
     BUSY(4);
 
-    ResponseCodes(int code)
+    LedgerResponseCodes(int code)
     {}
 }

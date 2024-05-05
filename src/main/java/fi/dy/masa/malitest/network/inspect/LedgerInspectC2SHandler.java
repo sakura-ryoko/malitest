@@ -58,6 +58,7 @@ public abstract class LedgerInspectC2SHandler<T extends CustomPayload> implement
     public void encodePayload(BlockPos pos)
     {
         LedgerInspectC2SHandler.INSTANCE.sendPlayPayload(new LedgerInspectC2SPayload(pos));
+        MaLiTest.logger.warn("LedgerInspectC2SHandler#encode(): --> sent");
     }
 
     @Override
