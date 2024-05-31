@@ -19,7 +19,7 @@ public abstract class LedgerInspectC2SHandler<T extends CustomPayload> implement
     };
     public static LedgerInspectC2SHandler<LedgerInspectC2SPayload> getInstance() { return INSTANCE; }
 
-    public static final Identifier CHANNEL_ID = new Identifier("ledger", "inspect");
+    public static final Identifier CHANNEL_ID = Identifier.of("ledger", "inspect");
     private boolean registered = false;
 
     @Override

@@ -20,7 +20,7 @@ public abstract class LedgerHandshakeHandler<T extends CustomPayload> implements
     };
     public static LedgerHandshakeHandler<LedgerHandshakePayload> getInstance() { return INSTANCE; }
 
-    public static final Identifier CHANNEL_ID = new Identifier("ledger", "handshake");
+    public static final Identifier CHANNEL_ID = Identifier.of("ledger", "handshake");
     private boolean registered = false;
 
     @Override

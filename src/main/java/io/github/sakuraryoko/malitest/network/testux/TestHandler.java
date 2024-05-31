@@ -17,7 +17,7 @@ public abstract class TestHandler<T extends CustomPayload> implements IPluginCli
         }
     };
     public static TestHandler<TestPayload> getInstance() { return INSTANCE; }
-    public static final Identifier CHANNEL_ID = new Identifier("testux", "test");
+    public static final Identifier CHANNEL_ID = Identifier.of("testux", "test");
     public static final int PROTOCOL_VERSION = 1;
 
     private boolean registered = false;

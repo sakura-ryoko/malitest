@@ -21,7 +21,7 @@ public abstract class LedgerResponseHandler<T extends CustomPayload> implements 
     };
     public static LedgerResponseHandler<LedgerResponsePayload> getInstance() { return INSTANCE; }
 
-    public static final Identifier CHANNEL_ID = new Identifier("ledger", "response");
+    public static final Identifier CHANNEL_ID = Identifier.of("ledger", "response");
     private boolean registered = false;
 
     @Override

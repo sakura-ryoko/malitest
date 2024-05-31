@@ -18,7 +18,7 @@ public abstract class LedgerActionS2CHandler<T extends CustomPayload> implements
     };
     public static LedgerActionS2CHandler<LedgerActionS2CPayload> getInstance() { return INSTANCE; }
 
-    public static final Identifier CHANNEL_ID = new Identifier("ledger", "action");
+    public static final Identifier CHANNEL_ID = Identifier.of("ledger", "action");
     private boolean registered = false;
 
     @Override

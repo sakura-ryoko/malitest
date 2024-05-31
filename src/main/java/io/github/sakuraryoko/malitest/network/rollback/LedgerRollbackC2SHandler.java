@@ -18,7 +18,7 @@ public abstract class LedgerRollbackC2SHandler<T extends CustomPayload> implemen
     };
     public static LedgerRollbackC2SHandler<LedgerRollbackC2SPayload> getInstance() { return INSTANCE; }
 
-    public static final Identifier CHANNEL_ID = new Identifier("ledger", "rollback");
+    public static final Identifier CHANNEL_ID = Identifier.of("ledger", "rollback");
     private boolean registered = false;
 
     @Override

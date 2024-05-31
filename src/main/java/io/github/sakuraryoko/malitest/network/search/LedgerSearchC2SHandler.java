@@ -18,7 +18,7 @@ public abstract class LedgerSearchC2SHandler<T extends CustomPayload> implements
     };
     public static LedgerSearchC2SHandler<LedgerSearchC2SPayload> getInstance() { return INSTANCE; }
 
-    public static final Identifier CHANNEL_ID = new Identifier("ledger", "search");
+    public static final Identifier CHANNEL_ID = Identifier.of("ledger", "search");
     private boolean registered = false;
 
     @Override

@@ -19,7 +19,7 @@ public abstract class LedgerPurgeC2SHandler<T extends CustomPayload> implements 
     };
     public static LedgerPurgeC2SHandler<LedgerPurgeC2SPayload> getInstance() { return INSTANCE; }
 
-    public static final Identifier CHANNEL_ID = new Identifier("ledger", "purge");
+    public static final Identifier CHANNEL_ID = Identifier.of("ledger", "purge");
     private boolean registered = false;
 
     @Override
