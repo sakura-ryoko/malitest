@@ -18,10 +18,10 @@
 	"environment": "client",
 	"entrypoints": {
 		"main": [
-			"io.github.sakuraryoko.malitest.MaLiTest"
+          "com.github.sakuraryoko.malitest.MaLiTest"
 		],
 		"modmenu": [
-			"io.github.sakuraryoko.malitest.compat.modmenu.ModMenuImpl"
+          "com.github.sakuraryoko.malitest.compat.modmenu.ModMenuImpl"
 		]
 	},
 	"mixins": [
