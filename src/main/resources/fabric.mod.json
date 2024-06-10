@@ -29,7 +29,7 @@
 	],
 
 	"depends": {
-		"minecraft": ">=1.21-beta.2",
-		"malilib": ">=0.18.999-snap"
+		"minecraft": ">=1.21-rc.1",
+		"malilib": ">=0.18.999-sakura"
 	}
 }
