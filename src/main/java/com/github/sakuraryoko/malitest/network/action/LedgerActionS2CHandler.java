@@ -1,6 +1,8 @@
 package com.github.sakuraryoko.malitest.network.action;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 import fi.dy.masa.malilib.network.IPluginClientPlayHandler;
@@ -60,6 +62,12 @@ public abstract class LedgerActionS2CHandler<T extends CustomPayload> implements
         MaLiTest.logger.info("timestamp {}", content.timestamp.toString());
         MaLiTest.logger.info("rolledBack {}", content.rolledBack);
         MaLiTest.logger.info("extraData {}", content.extraData);
+    }
+
+    @Override
+    public void encodeWithSplitter(PacketByteBuf buf, ClientPlayNetworkHandler handler)
+    {
+        // NO-OP
     }
 
     public void encodePayload(LedgerActionType content)

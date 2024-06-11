@@ -1,11 +1,13 @@
 package com.github.sakuraryoko.malitest.network.handshake;
 
 import java.util.List;
+import com.github.sakuraryoko.malitest.MaLiTest;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
-import com.github.sakuraryoko.malitest.MaLiTest;
 import fi.dy.masa.malilib.network.IPluginClientPlayHandler;
 
 public abstract class LedgerHandshakeHandler<T extends CustomPayload> implements IPluginClientPlayHandler<T>
@@ -79,6 +81,12 @@ public abstract class LedgerHandshakeHandler<T extends CustomPayload> implements
     public void encodePayload(Integer protocolVersion, String ledgerVersion, String modId)
     {
         LedgerHandshakeHandler.INSTANCE.sendPlayPayload(new LedgerHandshakePayload(new LedgerHandshake(protocolVersion, ledgerVersion, modId)));
+    }
+
+    @Override
+    public void encodeWithSplitter(PacketByteBuf buf, ClientPlayNetworkHandler handler)
+    {
+        // NO-OP
     }
 
     @Override

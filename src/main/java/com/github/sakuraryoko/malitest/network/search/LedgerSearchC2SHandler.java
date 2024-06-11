@@ -1,6 +1,8 @@
 package com.github.sakuraryoko.malitest.network.search;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 import com.github.sakuraryoko.malitest.MaLiTest;
@@ -59,6 +61,12 @@ public abstract class LedgerSearchC2SHandler<T extends CustomPayload> implements
     {
         LedgerSearchC2SHandler.INSTANCE.sendPlayPayload(new LedgerSearchC2SPayload(restore, args));
         MaLiTest.logger.warn("LedgerSearchC2SHandler#encode() --> sent");
+    }
+
+    @Override
+    public void encodeWithSplitter(PacketByteBuf buf, ClientPlayNetworkHandler handler)
+    {
+        // NO-OP
     }
 
     @Override

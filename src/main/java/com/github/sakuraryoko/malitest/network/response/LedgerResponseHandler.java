@@ -1,11 +1,13 @@
 package com.github.sakuraryoko.malitest.network.response;
 
+import com.github.sakuraryoko.malitest.MaLiTest;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
-import com.github.sakuraryoko.malitest.MaLiTest;
 import fi.dy.masa.malilib.network.IPluginClientPlayHandler;
 
 @Environment(EnvType.CLIENT)
@@ -67,6 +69,12 @@ public abstract class LedgerResponseHandler<T extends CustomPayload> implements 
     public void encodePayload(Identifier type, int response)
     {
         LedgerResponseHandler.INSTANCE.sendPlayPayload(new LedgerResponsePayload(new LedgerResponse(type, response)));
+    }
+
+    @Override
+    public void encodeWithSplitter(PacketByteBuf buf, ClientPlayNetworkHandler handler)
+    {
+        // NO-OP
     }
 
     @Override

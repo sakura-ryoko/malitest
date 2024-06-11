@@ -1,6 +1,8 @@
 package com.github.sakuraryoko.malitest.network.inspect;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -60,6 +62,12 @@ public abstract class LedgerInspectC2SHandler<T extends CustomPayload> implement
     {
         LedgerInspectC2SHandler.INSTANCE.sendPlayPayload(new LedgerInspectC2SPayload(pos, pages));
         MaLiTest.logger.warn("LedgerInspectC2SHandler#encode(): --> sent");
+    }
+
+    @Override
+    public void encodeWithSplitter(PacketByteBuf buf, ClientPlayNetworkHandler handler)
+    {
+        // NO-OP
     }
 
     @Override

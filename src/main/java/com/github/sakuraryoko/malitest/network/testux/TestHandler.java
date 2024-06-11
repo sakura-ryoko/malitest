@@ -1,6 +1,8 @@
 package com.github.sakuraryoko.malitest.network.testux;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 import com.github.sakuraryoko.malitest.MaLiTest;
@@ -64,6 +66,12 @@ public abstract class TestHandler<T extends CustomPayload> implements IPluginCli
         MaLiTest.logger.info("TestHandler#decodePayload: received");
 
         content.dump();
+    }
+
+    @Override
+    public void encodeWithSplitter(PacketByteBuf buf, ClientPlayNetworkHandler handler)
+    {
+        // NO-OP
     }
 
     public void encodePayload(TestData content)

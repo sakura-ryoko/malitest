@@ -1,6 +1,8 @@
 package com.github.sakuraryoko.malitest.network.purge;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -61,6 +63,12 @@ public abstract class LedgerPurgeC2SHandler<T extends CustomPayload> implements 
         LedgerPurgeC2SHandler.INSTANCE.sendPlayPayload(new LedgerPurgeC2SPayload(pos, pages));
 
         MaLiTest.logger.warn("LedgerPurgeC2SHandler#encode() --> sent");
+    }
+
+    @Override
+    public void encodeWithSplitter(PacketByteBuf buf, ClientPlayNetworkHandler handler)
+    {
+        // NO-OP
     }
 
     @Override

@@ -1,9 +1,11 @@
 package com.github.sakuraryoko.malitest.network.rollback;
 
+import com.github.sakuraryoko.malitest.MaLiTest;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
-import com.github.sakuraryoko.malitest.MaLiTest;
 import fi.dy.masa.malilib.network.IPluginClientPlayHandler;
 
 public abstract class LedgerRollbackC2SHandler<T extends CustomPayload> implements IPluginClientPlayHandler<T>
@@ -58,6 +60,12 @@ public abstract class LedgerRollbackC2SHandler<T extends CustomPayload> implemen
     {
         LedgerRollbackC2SHandler.INSTANCE.sendPlayPayload(new LedgerRollbackC2SPayload(input));
         MaLiTest.logger.warn("LedgerRollbackC2SHandler#encode() --> sent");
+    }
+
+    @Override
+    public void encodeWithSplitter(PacketByteBuf buf, ClientPlayNetworkHandler handler)
+    {
+        // NO-OP
     }
 
     @Override
