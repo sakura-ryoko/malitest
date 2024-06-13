@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 public record LedgerInspectC2SPayload(BlockPos pos, Integer pages)
         implements CustomPayload
 {
-    public static final Id<LedgerInspectC2SPayload> TYPE = new Id<>(LedgerInspectC2SHandler.CHANNEL_ID);
+    public static final Id<LedgerInspectC2SPayload> ID = new Id<>(LedgerInspectC2SHandler.CHANNEL_ID);
     public static final PacketCodec<PacketByteBuf, LedgerInspectC2SPayload> CODEC = CustomPayload.codecOf(LedgerInspectC2SPayload::write, LedgerInspectC2SPayload::new);
 
     public LedgerInspectC2SPayload(PacketByteBuf input)
@@ -23,5 +23,5 @@ public record LedgerInspectC2SPayload(BlockPos pos, Integer pages)
     }
 
     @Override
-    public Id<? extends CustomPayload> getId() { return TYPE; }
+    public Id<? extends CustomPayload> getId() { return ID; }
 }

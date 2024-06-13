@@ -10,15 +10,15 @@ import com.github.sakuraryoko.malitest.MaLiTest;
 
 public abstract class LedgerActionS2CHandler<T extends CustomPayload> implements IPluginClientPlayHandler<T>
 {
-    private static final LedgerActionS2CHandler<LedgerActionS2CPayload> INSTANCE = new LedgerActionS2CHandler<>()
+    private static final LedgerActionS2CHandler<LedgerActionS2CPacket.Payload> INSTANCE = new LedgerActionS2CHandler<>()
     {
         @Override
-        public void receive(LedgerActionS2CPayload payload, ClientPlayNetworking.Context context)
+        public void receive(LedgerActionS2CPacket.Payload payload, ClientPlayNetworking.Context context)
         {
             LedgerActionS2CHandler.INSTANCE.receivePlayPayload(payload, context);
         }
     };
-    public static LedgerActionS2CHandler<LedgerActionS2CPayload> getInstance() { return INSTANCE; }
+    public static LedgerActionS2CHandler<LedgerActionS2CPacket.Payload> getInstance() { return INSTANCE; }
 
     public static final Identifier CHANNEL_ID = Identifier.of("ledger", "action");
     private boolean registered = false;
@@ -49,7 +49,7 @@ public abstract class LedgerActionS2CHandler<T extends CustomPayload> implements
         }
     }
 
-    public void decodePayload(LedgerActionType content)
+    public void decodePayload(LedgerActionS2CPacket content)
     {
         MaLiTest.logger.info("LedgerActionS2CHandler#decodePayload: payload");
 
@@ -70,9 +70,9 @@ public abstract class LedgerActionS2CHandler<T extends CustomPayload> implements
         // NO-OP
     }
 
-    public void encodePayload(LedgerActionType content)
+    public void encodePayload(LedgerActionS2CPacket content)
     {
-        LedgerActionS2CHandler.INSTANCE.sendPlayPayload(new LedgerActionS2CPayload(content));
+        LedgerActionS2CHandler.INSTANCE.sendPlayPayload(new LedgerActionS2CPacket.Payload(content));
 
         MaLiTest.logger.warn("LedgerActionS2CHandler#encode() --> sent");
     }
@@ -82,6 +82,6 @@ public abstract class LedgerActionS2CHandler<T extends CustomPayload> implements
     {
         MaLiTest.logger.info("LedgerActionS2CHandler#receivePlayPayload: payload");
 
-        LedgerActionS2CHandler.INSTANCE.decodePayload(((LedgerActionS2CPayload) payload).content());
+        LedgerActionS2CHandler.INSTANCE.decodePayload(((LedgerActionS2CPacket.Payload) payload).content());
     }
 }

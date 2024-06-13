@@ -12,15 +12,15 @@ import fi.dy.masa.malilib.network.IPluginClientPlayHandler;
 
 public abstract class LedgerHandshakeHandler<T extends CustomPayload> implements IPluginClientPlayHandler<T>
 {
-    private static final LedgerHandshakeHandler<LedgerHandshakePayload> INSTANCE = new LedgerHandshakeHandler<>()
+    private static final LedgerHandshakeHandler<LedgerHandshakePacket.Payload> INSTANCE = new LedgerHandshakeHandler<>()
     {
         @Override
-        public void receive(LedgerHandshakePayload payload, ClientPlayNetworking.Context context)
+        public void receive(LedgerHandshakePacket.Payload payload, ClientPlayNetworking.Context context)
         {
             LedgerHandshakeHandler.INSTANCE.receivePlayPayload(payload, context);
         }
     };
-    public static LedgerHandshakeHandler<LedgerHandshakePayload> getInstance() { return INSTANCE; }
+    public static LedgerHandshakeHandler<LedgerHandshakePacket.Payload> getInstance() { return INSTANCE; }
 
     public static final Identifier CHANNEL_ID = Identifier.of("ledger", "handshake");
     private boolean registered = false;
@@ -51,7 +51,7 @@ public abstract class LedgerHandshakeHandler<T extends CustomPayload> implements
         }
     }
 
-    public void decodePayload(LedgerHandshake content)
+    public void decodePayload(LedgerHandshakePacket content)
     {
         MaLiTest.logger.info("LedgerHandshakeC2SHandler#decodePayload: payload");
         int protocolVersion = content.getProtocolVersion();
@@ -68,19 +68,19 @@ public abstract class LedgerHandshakeHandler<T extends CustomPayload> implements
         }
     }
 
-    public void encodePayload(LedgerHandshake content)
+    public void encodePayload(LedgerHandshakePacket content)
     {
-        LedgerHandshakeHandler.INSTANCE.sendPlayPayload(new LedgerHandshakePayload(content));
+        LedgerHandshakeHandler.INSTANCE.sendPlayPayload(new LedgerHandshakePacket.Payload(content));
     }
 
     public void encodePayload(NbtCompound content)
     {
-        LedgerHandshakeHandler.INSTANCE.sendPlayPayload(new LedgerHandshakePayload(LedgerHandshake.fromNbt(content)));
+        LedgerHandshakeHandler.INSTANCE.sendPlayPayload(new LedgerHandshakePacket.Payload(LedgerHandshakePacket.fromNbt(content)));
     }
 
     public void encodePayload(Integer protocolVersion, String ledgerVersion, String modId)
     {
-        LedgerHandshakeHandler.INSTANCE.sendPlayPayload(new LedgerHandshakePayload(new LedgerHandshake(protocolVersion, ledgerVersion, modId)));
+        LedgerHandshakeHandler.INSTANCE.sendPlayPayload(new LedgerHandshakePacket.Payload(new LedgerHandshakePacket(protocolVersion, ledgerVersion, modId)));
     }
 
     @Override
@@ -94,6 +94,6 @@ public abstract class LedgerHandshakeHandler<T extends CustomPayload> implements
     {
         MaLiTest.logger.info("LedgerHandshakeC2SHandler#receivePlayPayload: payload");
 
-        LedgerHandshakeHandler.INSTANCE.decodePayload(((LedgerHandshakePayload) payload).content());
+        LedgerHandshakeHandler.INSTANCE.decodePayload(((LedgerHandshakePacket.Payload) payload).content());
     }
 }

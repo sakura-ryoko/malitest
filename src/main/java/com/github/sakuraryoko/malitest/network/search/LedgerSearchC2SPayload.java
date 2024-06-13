@@ -7,7 +7,7 @@ import net.minecraft.network.packet.CustomPayload;
 public record LedgerSearchC2SPayload(Boolean restore, String args)
         implements CustomPayload
 {
-    public static final Id<LedgerSearchC2SPayload> TYPE = new Id<>(LedgerSearchC2SHandler.CHANNEL_ID);
+    public static final Id<LedgerSearchC2SPayload> ID = new Id<>(LedgerSearchC2SHandler.CHANNEL_ID);
     public static final PacketCodec<PacketByteBuf, LedgerSearchC2SPayload> CODEC = CustomPayload.codecOf(LedgerSearchC2SPayload::write, LedgerSearchC2SPayload::new);
 
     public LedgerSearchC2SPayload(PacketByteBuf input)
@@ -22,5 +22,5 @@ public record LedgerSearchC2SPayload(Boolean restore, String args)
     }
 
     @Override
-    public Id<? extends CustomPayload> getId() { return TYPE; }
+    public Id<? extends CustomPayload> getId() { return ID; }
 }

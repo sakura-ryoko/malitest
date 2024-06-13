@@ -13,15 +13,15 @@ import fi.dy.masa.malilib.network.IPluginClientPlayHandler;
 @Environment(EnvType.CLIENT)
 public abstract class LedgerResponseHandler<T extends CustomPayload> implements IPluginClientPlayHandler<T>
 {
-    private static final LedgerResponseHandler<LedgerResponsePayload> INSTANCE = new LedgerResponseHandler<>()
+    private static final LedgerResponseHandler<LedgerResponsePacket.Payload> INSTANCE = new LedgerResponseHandler<>()
     {
         @Override
-        public void receive(LedgerResponsePayload payload, ClientPlayNetworking.Context context)
+        public void receive(LedgerResponsePacket.Payload payload, ClientPlayNetworking.Context context)
         {
             LedgerResponseHandler.INSTANCE.receivePlayPayload(payload, context);
         }
     };
-    public static LedgerResponseHandler<LedgerResponsePayload> getInstance() { return INSTANCE; }
+    public static LedgerResponseHandler<LedgerResponsePacket.Payload> getInstance() { return INSTANCE; }
 
     public static final Identifier CHANNEL_ID = Identifier.of("ledger", "response");
     private boolean registered = false;
@@ -58,17 +58,17 @@ public abstract class LedgerResponseHandler<T extends CustomPayload> implements 
         }
     }
 
-    public void decodePayload(LedgerResponse content)
+    public void decodePayload(LedgerResponsePacket content)
     {
         MaLiTest.logger.info("LedgerResponseHandler#decodePayload: payload");
 
         MaLiTest.logger.info("Type: {}", content.getType().toString());
-        MaLiTest.logger.info("LedgerResponse: {}", content.getResponse());
+        MaLiTest.logger.info("LedgerResponsePacket: {}", content.getResponse());
     }
 
     public void encodePayload(Identifier type, int response)
     {
-        LedgerResponseHandler.INSTANCE.sendPlayPayload(new LedgerResponsePayload(new LedgerResponse(type, response)));
+        LedgerResponseHandler.INSTANCE.sendPlayPayload(new LedgerResponsePacket.Payload(new LedgerResponsePacket(type, response)));
     }
 
     @Override
@@ -82,6 +82,6 @@ public abstract class LedgerResponseHandler<T extends CustomPayload> implements 
     {
         MaLiTest.logger.info("LedgerResponseHandler#receivePlayPayload: payload");
 
-        LedgerResponseHandler.INSTANCE.decodePayload(((LedgerResponsePayload) payload).content());
+        LedgerResponseHandler.INSTANCE.decodePayload(((LedgerResponsePacket.Payload) payload).content());
     }
 }

@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 public record LedgerPurgeC2SPayload(BlockPos pos, int pages)
         implements CustomPayload
 {
-    public static final Id<LedgerPurgeC2SPayload> TYPE = new Id<>(LedgerPurgeC2SHandler.CHANNEL_ID);
+    public static final Id<LedgerPurgeC2SPayload> ID = new Id<>(LedgerPurgeC2SHandler.CHANNEL_ID);
     public static final PacketCodec<PacketByteBuf, LedgerPurgeC2SPayload> CODEC = CustomPayload.codecOf(LedgerPurgeC2SPayload::write, LedgerPurgeC2SPayload::new);
 
     public LedgerPurgeC2SPayload(PacketByteBuf buf)
@@ -23,5 +23,5 @@ public record LedgerPurgeC2SPayload(BlockPos pos, int pages)
     }
 
     @Override
-    public Id<? extends CustomPayload> getId() { return TYPE; }
+    public Id<? extends CustomPayload> getId() { return ID; }
 }

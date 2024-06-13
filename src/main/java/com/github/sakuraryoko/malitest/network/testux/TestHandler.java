@@ -1,24 +1,24 @@
 package com.github.sakuraryoko.malitest.network.testux;
 
+import com.github.sakuraryoko.malitest.MaLiTest;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
-import com.github.sakuraryoko.malitest.MaLiTest;
 import fi.dy.masa.malilib.network.IPluginClientPlayHandler;
 
 public abstract class TestHandler<T extends CustomPayload> implements IPluginClientPlayHandler<T>
 {
-    private static final TestHandler<TestPayload> INSTANCE = new TestHandler<>()
+    private static final TestHandler<TestPacket.Payload> INSTANCE = new TestHandler<>()
     {
         @Override
-        public void receive(TestPayload payload, ClientPlayNetworking.Context context)
+        public void receive(TestPacket.Payload payload, ClientPlayNetworking.Context context)
         {
             TestHandler.INSTANCE.receivePlayPayload(payload, context);
         }
     };
-    public static TestHandler<TestPayload> getInstance() { return INSTANCE; }
+    public static TestHandler<TestPacket.Payload> getInstance() { return INSTANCE; }
     public static final Identifier CHANNEL_ID = Identifier.of("testux", "test");
     public static final int PROTOCOL_VERSION = 1;
 
@@ -61,7 +61,7 @@ public abstract class TestHandler<T extends CustomPayload> implements IPluginCli
         }
     }
 
-    public void decodePayload(TestData content)
+    public void decodePayload(TestPacket content)
     {
         MaLiTest.logger.info("TestHandler#decodePayload: received");
 
@@ -74,14 +74,14 @@ public abstract class TestHandler<T extends CustomPayload> implements IPluginCli
         // NO-OP
     }
 
-    public void encodePayload(TestData content)
+    public void encodePayload(TestPacket content)
     {
-        TestHandler.INSTANCE.sendPlayPayload(new TestPayload(content));
+        TestHandler.INSTANCE.sendPlayPayload(new TestPacket.Payload(content));
     }
 
     @Override
     public void receivePlayPayload(T payload, ClientPlayNetworking.Context context)
     {
-        TestHandler.INSTANCE.decodePayload(((TestPayload) payload).content());
+        TestHandler.INSTANCE.decodePayload(((TestPacket.Payload) payload).content());
     }
 }
