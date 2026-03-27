@@ -22,4 +22,4 @@ Testing / Using
   * ***WARNING!***  Using invalid Ledger syntax will crash the server.
   * Watch the Client Logs for the search results.
 
- [![Join Sakura's RyokoCraft Discord](https://sakuraryoko.com/files/1398873/discord-300px.png)](https://discord.gg/njVWs6DF)
+ [![Join Sakura's RyokoCraft Discord](https://sakuraryoko.com/files/1398873/discord-300px.png)](https://discord.gg/ryokocraftmc)
